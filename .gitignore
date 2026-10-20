@@ -1,0 +1,15 @@
+# Python environments and bytecode
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+# generated result directories
+results/
+# local clutter
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
