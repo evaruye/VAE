@@ -1,0 +1,17 @@
+%chk=St-1.chk
+%mem=32GB
+%nprocshared=16
+# opt=(calcfc,maxcycles=200,maxstep=10,gdiis,notrust) freq
+b3lyp/6-31+g(d,p) scrf=(iefpcm,solvent=water) nosymm guess=mix
+pop=(full,cm5) empiricaldispersion=gd3bj int=ultrafine
+scf=(xqc,maxcycle=512)
+
+St-1
+
+-2 1
+ S                 -0.53171415    1.05648127   -3.47993972
+ S                 -2.55039494    0.98583776   -3.49830689
+ O                  0.00469164   -0.30341215   -3.32933133
+ O                 -0.08086679    1.88824703   -2.35538357
+ O                  0.01531664    1.71502963   -4.91380561
+

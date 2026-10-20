@@ -1,0 +1,16 @@
+%chk=H2O2-2_high.chk
+%mem=16GB
+%nprocshared=16
+# WB97XD/6-311+g(d,p) 
+    SCRF=(SMD,Solvent=Water)
+   Pop=(Full,NPA,CM5)  Polar
+  SCF=(XQC,MaxCycle=512)  Int=UltraFine  NoSymm
+
+H2O2-2_high
+
+0 1
+ O                 -0.00000000   -0.72670178    0.06498718
+ O                  0.00000000    0.72670178    0.06498718
+ H                  0.75303900   -0.91932233   -0.51989742
+ H                 -0.75303900    0.91932233   -0.51989742
+

@@ -1,0 +1,24 @@
+%chk=Sv-1.chk
+%mem=32GB
+%nprocshared=16
+#  B3LYP/6-31+g(d,p) EmpiricalDispersion=GD3BJ 
+   SCRF=(IEFPCM,Solvent=Water) 
+   Opt=(CalcFC,MaxCycles=200,MaxStep=10,GDIIS,NoTrust) 
+   Freq 
+   SCF=(XQC,MaxCycle=512) 
+   Int=UltraFine Guess=Mix NoSymm 
+   Pop=(Full,CM5)
+
+Sv-1
+
+-1 1
+ S                 -0.37768585    0.00284720   -0.08330372
+ O                 -1.54408178   -1.15159055   -0.39264823
+ O                 -0.51180077    1.10498712   -1.04612507
+ O                 -0.55062720    0.52059444    1.28115707
+ C                  1.23744938   -0.72870415   -0.24005451
+ C                  2.34521879    0.02387494   -0.03259688
+ H                  1.33370443   -1.76265678   -0.49807957
+ H                  3.31611469   -0.41587776   -0.12682377
+ H                  2.24896374    1.05782756    0.22542823
+

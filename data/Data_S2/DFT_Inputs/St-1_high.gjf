@@ -1,0 +1,17 @@
+%chk=St-1_high.chk
+%mem=32GB
+%nprocshared=16
+# WB97XD/6-311+g(d,p) 
+    SCRF=(SMD,Solvent=Water)
+   Pop=(Full,NPA,CM5)  Polar
+  SCF=(XQC,MaxCycle=512)  Int=UltraFine  NoSymm
+
+St-1_high
+
+-2 1
+ S                 -0.49627213    1.07346572   -3.51423305
+ S                 -2.58252611    0.99762505   -3.52937429
+ O                  0.02824739   -0.33701222   -3.35921322
+ O                 -0.05907803    1.93466438   -2.34991620
+ O                 -0.03333895    1.67344099   -4.82403162
+

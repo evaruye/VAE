@@ -1,0 +1,15 @@
+%chk=H2O2-2.chk
+%mem=16GB
+%nprocshared=16
+# opt=(calcall,tight) b3lyp/6-31+g(d,p) scrf=(iefpcm,solvent=water)
+int=ultrafine
+empiricaldispersion=gd3bj
+
+H2O2-2
+
+0 1
+ O                  1.17762740    0.86864519    0.21406287
+ O                  1.33697259   -0.43384518    0.07078710
+ H                  0.28151728    1.05119805    0.50605792
+ H                  2.23308272   -0.61639806   -0.22120789
+
