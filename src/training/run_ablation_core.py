@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-"""JCIM Table S6 VAE feature-representation ablation runner.
+"""VAE feature-representation ablation runner.
 
 The original four training modules are imported unchanged; their split methods,
 model builders and fold fitting methods are invoked. Optuna is NOT rerun.
 Only input X is replaced for the two feature ablations. Baseline is the
-original recorded Table S5, not recomputed by this program.
+original full-input cross-validation reference, not recomputed by this program.
 """
 from __future__ import annotations
 import sys, importlib.util, json, platform
@@ -41,7 +41,7 @@ PARAMS={
          'batch_size':32,'learning_rate_init':0.011542692268549048,'max_iter':2953,
          'tol':0.00017557296287695068,'n_iter_no_change':38,'early_stopping':False}
 }
-BASELINE_S5={'EC':(0.9242,0.0640),'SC':(0.9150,0.0746),'VC':(0.7201,0.1429),'HCHO':(0.9442,0.0466)}
+REFERENCE_FULL_CV={'EC':(0.9242,0.0640),'SC':(0.9150,0.0746),'VC':(0.7201,0.1429),'HCHO':(0.9442,0.0466)}
 
 def import_original(target):
     name=SOURCE_NAMES[target]
@@ -165,9 +165,9 @@ def main(target,scenario):
        'rmse_mean':float(scores.rmse.mean()),'rmse_sd_sample':float(scores.rmse.std(ddof=1)),
        'mae_mean':float(scores.mae.mean()),'mae_sd_sample':float(scores.mae.std(ddof=1)),
        'oof_r2':float(r2_score(ytr,preds)),
-       'reference_TableS5_r2_mean':BASELINE_S5[target][0],
-       'reference_TableS5_r2_sd':BASELINE_S5[target][1],
-       'delta_vs_original_TableS5_mean_R2':float(BASELINE_S5[target][0]-scores.r2.mean()),
+       'reference_full_r2_mean':REFERENCE_FULL_CV[target][0],
+       'reference_full_r2_sd':REFERENCE_FULL_CV[target][1],
+       'delta_vs_full_reference_mean_R2':float(REFERENCE_FULL_CV[target][0]-scores.r2.mean()),
        'cv_source':split_type,
        'fit_rule':'original target-specific fitting function; fixed original optimal params; original fold early stopping if applicable; no Optuna'}
     scores.to_csv(result_dir/'fold_scores.csv',index=False,encoding='utf-8-sig')
@@ -177,8 +177,8 @@ def main(target,scenario):
         json.dump({'python':sys.version,'platform':platform.platform(),
                    'params':PARAMS[target],'train_indices':train.tolist(),'test_indices':test.tolist(),
                    'package_versions':{'pandas':pd.__version__,'numpy':np.__version__},
-                   'description':'Table S5 full baseline retained from original author record; two ablations use original CV logic'},f,indent=2,ensure_ascii=False)
+                   'description':'Full-input reference retained from fixed baseline metrics; two ablations use original CV logic'},f,indent=2,ensure_ascii=False)
     print(f'\nFINAL: {target} {scenario} R²={summary["r2_mean"]:.4f} ± {summary["r2_sd_sample"]:.4f}')
-    print(f'Table S5 original baseline: {summary["reference_TableS5_r2_mean"]:.4f} ± {summary["reference_TableS5_r2_sd"]:.4f}')
+    print(f'Full-input reference baseline: {summary["reference_full_r2_mean"]:.4f} ± {summary["reference_full_r2_sd"]:.4f}')
     print(f'Output: {result_dir}')
     return summary

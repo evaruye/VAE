@@ -36,7 +36,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 YR_DIR = REPO_ROOT / "results" / "Y_randomization"
 ORIGIN_DIR = YR_DIR / "Origin_data"
 
-# These are canonical publication filenames, not new datasets.
+# Canonical modeling-workbook filenames for the four target datasets.
 CONFIG = {
     "EC": {"data_file": "data/Data_S2/EC_Modeling_Data.xlsx", "model_file": "models/EC_CatBoost.joblib", "target_col": "Ethylene Content", "patent_col": "文献", "scale": "raw"},
     "SC": {"data_file": "data/Data_S2/SC_Modeling_Data.xlsx", "model_file": "models/SC_XGBoost.joblib", "target_col": "Solid Content", "patent_col": "文献", "scale": "raw"},
@@ -361,15 +361,15 @@ def validate_dataset_and_model(target_key, cfg):
     df[cfg["target_col"]] = y_num.astype(float)
     estimator = load_final_estimator(model_path)
     features = get_feature_names(estimator)
-    # Publication workbooks use the descriptive alias ter_mean_E_gap for the
+    # Modeling workbooks use the descriptive alias ter_mean_E_gap for the
     # same pooled energy-gap feature saved in the frozen estimators as
     # ter_mean_△G. Preserve the frozen model's expected input name and order.
     # Do not alter source workbooks or silently apply any other schema changes.
     aliases = {"ter_mean_△G": "ter_mean_E_gap"}
-    for model_col, published_col in aliases.items():
-        if model_col in features and model_col not in df.columns and published_col in df.columns:
-            df[model_col] = df[published_col]
-            print(f"[ALIAS] {target_key}: {published_col} -> {model_col} (model schema)")
+    for model_col, workbook_col in aliases.items():
+        if model_col in features and model_col not in df.columns and workbook_col in df.columns:
+            df[model_col] = df[workbook_col]
+            print(f"[ALIAS] {target_key}: {workbook_col} -> {model_col} (model schema)")
     missing = [c for c in features if c not in df.columns]
     if missing:
         raise ValueError(f"{target_key}: missing model features: {missing}")
