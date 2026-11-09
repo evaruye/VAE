@@ -4,7 +4,7 @@ Usage (from repository root): python tests/verify_heldout.py
 
 No hyperparameter tuning or training occurs. Metrics are on original model
 scales: EC/SC in wt%, VC/HCHO on ln(1+y). Strict matching of held-out
-metrics is environment-dependent; use publication-pinned package versions.
+metrics is environment-dependent; consult requirements.txt for the listed dependencies.
 """
 from __future__ import annotations
 import importlib.util
@@ -17,7 +17,7 @@ SPEC = importlib.util.spec_from_file_location('vae_yr_validation', ROOT/'src/val
 validation = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(validation)
 
-PUBLISHED = {
+REFERENCE_METRICS = {
     'EC': (0.9798, 0.6261, 0.3573),
     'SC': (0.9751, 0.6773, 0.5106),
     'VC': (0.9031, 0.3495, 0.2683),
@@ -37,13 +37,13 @@ def main():
         metrics=(float(r2_score(y[test_idx],observed)),
                  float(np.sqrt(mean_squared_error(y[test_idx],observed))),
                  float(mean_absolute_error(y[test_idx],observed)))
-        expected=PUBLISHED[target]
+        expected=REFERENCE_METRICS[target]
         passed = all(abs(a-b)<0.001 for a,b in zip(metrics,expected))
         all_pass &= passed
-        print(f'{target}: test_n={len(test_idx)}, R2={metrics[0]:.6f}, RMSE={metrics[1]:.6f}, MAE={metrics[2]:.6f}; published={expected}; {"PASS" if passed else "MISMATCH"}')
+        print(f'{target}: test_n={len(test_idx)}, R2={metrics[0]:.6f}, RMSE={metrics[1]:.6f}, MAE={metrics[2]:.6f}; reference_metrics={expected}; {"PASS" if passed else "MISMATCH"}')
     if not all_pass:
-        raise SystemExit('Frozen-model held-out metrics differ from manuscript (at least one target).')
-    print('PASS: all four frozen models agree with published held-out scores within 0.001')
+        raise SystemExit('Frozen-model held-out metrics differ from stored reference values (at least one target).')
+    print('PASS: all four frozen models agree with stored held-out reference scores within 0.001')
 
 
 if __name__=='__main__':
