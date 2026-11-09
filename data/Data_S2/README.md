@@ -15,6 +15,8 @@ It contains the curated formulation–process–property dataset, English-standa
 - `Final_C1_C8_Candidates.xlsx` — final C1–C8 process conditions, formulations, predicted properties, desirability values, and applicability-domain classifications. Candidate numbering matches the manuscript and Supporting Information.
 - `Data_Dictionary.xlsx` — four worksheets: `Package_Contents`, `Raw_Data_Columns`, `Model_Features`, and `Descriptor_Columns`.
 - `DFT_Inputs/` — 68 Gaussian input files mapped to 39 raw-material entries through 34 pairs of calculations. `DFT_Inputs/README.md` lists the correspondence.
+- `Equal_Weight_Pooling.xlsx` — four worksheets (EC, SC, VC, HCHO), containing equal-weight pooled feature matrices and observed target values; no validation results.
+- `Process_Only.xlsx` — four worksheets (EC, SC, VC, HCHO), containing only process-feature matrices and observed target values; no validation results.
 
 ## Data representation
 
@@ -63,4 +65,12 @@ The SMILES entries describe the modeled molecular or ionic species. Counterions 
 
 ## Relationship to the other supplementary files
 
-Data S1 contains numerical source data for Figures 2–8 and S1–S7, including the training/test labels and actual/predicted responses in `Figure 3`. Data S2 supplies the underlying curated records and model-input/response matrices. The manuscript and Supporting Information describe preprocessing, model settings, validation procedures, optimization criteria, and applicability-domain definitions.
+Data S1 contains numerical source data for Figures 2–9 and S1–S7, including the separate `Figure 4a` and `Figure 4b` worksheets. Figure 5–8 are the four property-specific SHAP plots, and Figure 9 is the multiobjective-optimization plot. The `Figure 3` sheet contains the model training/test labels and actual/predicted responses. Data S2 supplies the underlying curated records and model-input/response matrices. The manuscript and Supporting Information describe preprocessing, model settings, validation procedures, optimization criteria, and applicability-domain definitions.
+
+## Reduced-input datasets
+
+`Process_Only.xlsx` contains the five process inputs `init_temp`, `poly_pressure`, `poly_temp`, `time_log1p`, and `initiator_feed_continuous` for EC, SC, and VC; HCHO additionally contains `initiator_feed_semi_continuous`.
+
+`Equal_Weight_Pooling.xlsx` retains the original 39/40 input feature names and the non-pooled features; only the pooled descriptor values are calculated with equal ingredient weights. Each workbook has four tabs and includes the corresponding observed target column. The files contain source data only, not fold scores, predictions, or model results.
+
+The original manuscript, Supporting Information, and figure-source data document the evaluation methods and comparisons.
