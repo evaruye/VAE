@@ -8,7 +8,7 @@ This directory contains 34 mapped calculation pairs (68 `.gjf` files). The table
 - `<prefix>_high.gjf` contains the corresponding higher-level single-point/property input with explicit coordinates.
 - Use the method, basis set, solvent model, charge, multiplicity, and options recorded in each individual file. Optimization settings vary among species.
 - Each input includes Cartesian coordinates and does not require a pre-existing checkpoint through `Geom=Check`, `Guess=Read`, or `%oldchk`. `%chk` names the checkpoint written by that job.
-- These are calculation inputs. Gaussian output logs and descriptor-extraction scripts are not included in this directory. Descriptor definitions and the reported calculation workflow are given in the manuscript and Supporting Information.
+- These are calculation inputs. Gaussian output logs and descriptor-extraction scripts are not included in this directory. Descriptor definitions are in `../Data_Dictionary.xlsx`; calculation settings are specified in the individual Gaussian input files.
 
 ## Material-to-file mapping
 
