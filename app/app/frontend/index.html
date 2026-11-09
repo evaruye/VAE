@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VAE Emulsion Multi-Property Prediction System</title>
+  <link rel="stylesheet" href="/static/style.css?v=3.9.0" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-mark">VAE</div>
+    <div class="brand-copy">
+      <h1>VAE Emulsion Multi-Property Prediction System</h1>
+      <p>Raw formulation · Property-driven material input · Frozen feature engineering · Four-property prediction</p>
+    </div>
+    <div id="pipelineBadge" class="pipeline-badge pending" aria-live="polite">
+      <span class="badge-dot"></span>
+      <span id="pipelineBadgeText">Initializing prediction pipeline…</span>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section class="input-panel panel">
+      <div class="panel-head">
+        <div>
+          <div class="eyebrow">INPUT</div>
+          <h2>Formulation &amp; Process Inputs</h2>
+          <p>Enter experimentally accessible formulation, process, and retained material-property descriptors.</p>
+        </div>
+        <div class="head-actions">
+          <button id="exampleBtn" class="btn btn-light" type="button">Load Example</button>
+          <button id="clearBtn" class="btn btn-light" type="button">Reset</button>
+        </div>
+      </div>
+
+      <nav id="tabs" class="tabs" aria-label="Formulation sections">
+        <button class="tab active" data-tab="process" type="button"><span>01</span> Process Conditions</button>
+        <button class="tab" data-tab="oxidred" type="button"><span>02</span> Redox System</button>
+        <button class="tab" data-tab="ter" type="button"><span>03</span> Functional Comonomers</button>
+        <button class="tab" data-tab="emul" type="button"><span>04</span> Emulsifiers</button>
+        <button class="tab" data-tab="pc" type="button"><span>05</span> Protective Colloids</button>
+      </nav>
+
+      <div class="tab-stage">
+        <section id="tab-process" class="tab-pane active">
+          <div class="section-intro">
+            <div><h3>Process Conditions</h3><p>Required mathematical transformations are applied automatically in the backend.</p></div>
+            <div class="subtle-note"><span class="note-icon">i</span><span>Initial pressure was excluded from the final feature set.</span></div>
+          </div>
+          <div class="process-grid">
+            <label class="form-field"><span class="field-label">Initial Temperature</span><div class="control-with-unit"><input id="init_temp" type="number" step="0.1" placeholder="60" /><span>°C</span></div></label>
+            <label class="form-field"><span class="field-label">Polymerization Temperature</span><div class="control-with-unit"><input id="poly_temp" type="number" step="0.1" placeholder="75" /><span>°C</span></div></label>
+            <label class="form-field"><span class="field-label">Polymerization Pressure</span><div class="control-with-unit"><input id="poly_pressure" type="number" step="0.01" placeholder="6.0" /><span>MPa</span></div></label>
+            <label class="form-field"><span class="field-label">Polymerization Time</span><div class="control-with-unit"><input id="time" type="number" step="1" min="0" placeholder="240" /><span>min</span></div></label>
+            <label class="form-field"><span class="field-label">Initiator Feeding Mode</span><select id="initiator_feed_mode"><option value="">Select mode</option><option value="batch">Batch</option><option value="continuous">Continuous</option><option value="semi_continuous">Semi-continuous</option></select></label>
+            <label class="form-field"><span class="field-label">Coinitiator Dosage</span><div class="control-with-unit"><input id="coinitiator_pct" type="number" step="0.001" min="0" placeholder="0.003" /><span>wt%</span></div></label>
+            <label class="form-field"><span class="field-label">Dispersant Dosage</span><div class="control-with-unit"><input id="dispersant_pct" type="number" step="0.001" min="0" placeholder="0.020" /><span>wt%</span></div></label>
+            <label class="form-field"><span class="field-label">pH Buffer Dosage</span><div class="control-with-unit"><input id="pH_buffer_pct" type="number" step="0.001" min="0" placeholder="0.240" /><span>wt%</span></div></label>
+          </div>
+        </section>
+
+        <section id="tab-oxidred" class="tab-pane">
+          <div class="section-intro compact"><div><h3>Redox System</h3><p>Select chemically identified raw materials and enter VAc-based dosages.</p></div><span class="basis-badge">Dosage basis: VAc-based wt%</span></div>
+          <div class="family-block"><div class="family-head"><strong>Oxidizers</strong><span>up to 2 materials</span></div><div id="oxidizerSlots" class="slot-table"></div></div>
+          <div class="family-block"><div class="family-head"><strong>Reducers</strong><span>up to 3 materials</span></div><div id="reducerSlots" class="slot-table"></div></div>
+        </section>
+
+        <section id="tab-ter" class="tab-pane">
+          <div class="section-intro compact"><div><h3>Functional Comonomers</h3><p>Up to 7 chemically identified functional comonomers can be entered.</p></div><span class="basis-badge">Dosage basis: VAc-based wt%</span></div>
+          <div id="thirdMonomerSlots" class="slot-table"></div>
+        </section>
+
+        <section id="tab-emul" class="tab-pane">
+          <div class="section-intro compact">
+            <div><h3>Emulsifiers</h3><p>Commercial names are not required. Enter the retained model descriptor directly for each active component.</p></div>
+            <span class="basis-badge">Model descriptor: EO number</span>
+          </div>
+          <div class="subtle-note property-note"><span class="note-icon">i</span><span>EO number is entered directly for dosage-weighted pooling; product labels are not required by the prediction core.</span></div>
+          <div id="emulsifierPropertySlots" class="slot-table property-slots"></div>
+        </section>
+
+        <section id="tab-pc" class="tab-pane">
+          <div class="section-intro compact">
+            <div><h3>Protective Colloids</h3><p>Enter dosage together with the retained empirical descriptors used by the frozen models.</p></div>
+            <span class="basis-badge">Descriptors: DH + DP</span>
+          </div>
+          <div class="subtle-note property-note"><span class="note-icon">i</span><span>Enter DH = 0 when degree of hydrolysis is not applicable to the material class (for example, HEC).</span></div>
+          <div id="protectiveColloidPropertySlots" class="slot-table property-slots"></div>
+        </section>
+      </div>
+
+      <div class="input-bottom">
+        <div class="workflow" aria-label="Automatic feature construction and prediction workflow">
+          <div class="workflow-step"><div class="step-icon">1</div><span>Formulation<br/>Input</span></div><span class="workflow-arrow">→</span>
+          <div class="workflow-step"><div class="step-icon">2</div><span>Descriptor /<br/>Property Input</span></div><span class="workflow-arrow">→</span>
+          <div class="workflow-step"><div class="step-icon">3</div><span>Weighted<br/>Pooling</span></div><span class="workflow-arrow">→</span>
+          <div class="workflow-step"><div class="step-icon">4</div><span>Frozen Feature<br/>Transformation</span></div><span class="workflow-arrow">→</span>
+          <div class="workflow-step"><div class="step-icon">5</div><span>Property<br/>Prediction</span></div>
+        </div>
+
+        <button id="predictBtn" class="btn btn-primary predict-main" type="button"><span class="play-icon">▶</span> Predict Properties</button>
+        <div id="assetNotice" class="message notice hidden"></div>
+        <div id="statusBox" class="message status hidden" aria-live="polite"></div>
+        <div id="warningBox" class="message warning hidden"></div>
+      </div>
+    </section>
+
+    <aside class="result-panel panel">
+      <div class="result-head">
+        <div class="eyebrow">OUTPUT · PREDICTION</div>
+        <h2>Predicted VAE Properties</h2>
+        <p>One formulation is evaluated by four frozen property-specific surrogate models.</p>
+      </div>
+
+      <div class="result-grid">
+        <article class="metric-card">
+          <div class="metric-top"><div class="metric-label">Viscosity <span>VC</span></div><div class="model-chip">CatBoost</div></div>
+          <div id="vcValue" class="metric-value">—</div><div class="metric-unit">mPa·s</div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-top"><div class="metric-label">Ethylene Content <span>EC</span></div><div class="model-chip">CatBoost</div></div>
+          <div id="ecValue" class="metric-value">—</div><div class="metric-unit">wt%</div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-top"><div class="metric-label">Solid Content <span>SC</span></div><div class="model-chip">XGBoost</div></div>
+          <div id="scValue" class="metric-value">—</div><div class="metric-unit">wt%</div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-top"><div class="metric-label">Free Formaldehyde <span>HCHO</span></div><div class="model-chip">MLP</div></div>
+          <div id="hchoValue" class="metric-value">—</div><div class="metric-unit">ppm</div>
+        </article>
+      </div>
+
+      <div class="prediction-summary">
+        <div><span>Frozen feature vector</span><strong id="featureCount">40</strong><small>master inputs</small></div>
+        <div><span>Property models</span><strong>4</strong><small>simultaneous outputs</small></div>
+        <div><span>Input mode</span><strong>Property-driven</strong><small>EO / DH / DP</small></div>
+      </div>
+
+      <div id="resultState" class="result-state waiting">
+        <span class="result-state-icon">○</span>
+        <div><strong>Awaiting prediction</strong><p>Load an example or enter a formulation, then run the frozen four-model workflow.</p></div>
+      </div>
+
+      <div class="scope-note">
+        <strong>System scope</strong>
+        <p>Single-formulation forward prediction. Batch prediction, full applicability-domain diagnostics, and NSGA-II candidate generation remain outside the current interactive interface.</p>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="footer"><span>V3.9 capture-ready interface · Frozen feature engineering · Four-property surrogate prediction</span><span id="systemState">Initializing model pipeline…</span></footer>
+  <script src="/static/app.js?v=3.9.0"></script>
+</body>
+</html>
