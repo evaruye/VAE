@@ -36,6 +36,8 @@ Note: The VC/HCHO R², RMSE and MAE are calculated on the transformed model-outp
 │       ├── HCHO_Modeling_Data.xlsx
 │       ├── Final_C1_C8_Candidates.xlsx
 │       ├── Data_Dictionary.xlsx
+│       ├── Equal_Weight_Pooling.xlsx
+│       ├── Process_Only.xlsx
 │       ├── README.md
 │       └── DFT_Inputs/              # 68 Gaussian .gjf inputs + mapping README
 ├── models/                       # Four frozen .joblib surrogates
@@ -51,9 +53,23 @@ Note: The VC/HCHO R², RMSE and MAE are calculated on the transformed model-outp
 
 **There is no checked-in `results/` directory.** Some research scripts write their outputs there when run; generated files are ignored by Git. Published C1–C8 results are instead in `data/Data_S2/Final_C1_C8_Candidates.xlsx`. This repository does not include a pre-generated Pareto/results archive.
 
+
+## JCIM release: feature ablations and reproducibility
+
+This updated release aligns figure-source data and supporting materials with the JCIM manuscript numbering.
+
+- `data/Data_S1.xlsx`: 16 independent figure-source worksheets: `Figure 2`, `Figure 3`, `Figure 4a`, `Figure 4b`, `Figure 5`–`Figure 9`, and `Figure S1`–`Figure S7`. The previous SHAP and optimization figures were renumbered to make room for the two-panel Figure 4. The final submission-aligned file corrects the Figure 9 worksheet panel-(b) label to **Figure 9b**; underlying plotted numbers are unchanged.
+- `data/Data_S2/Equal_Weight_Pooling.xlsx` and `data/Data_S2/Process_Only.xlsx`: each contains four EC/SC/VC/HCHO input-plus-target worksheets. Only source data are distributed; per-fold scores, OOF predictions and run metadata are omitted.
+- `src/training/*_process_only_originalCV.py` and `*_equal_pooling_originalCV.py`: eight launchers for fixed-hyperparameter, original-protocol ablations. They invoke `run_ablation_core.py` and the existing target-specific original model modules, without running Optuna.
+- `src/training/README_ABLATION_JCIM.md`: instructions for running fixed-parameter ablation comparisons.
+
+**Reproducibility.** Dependency requirements are provided in `requirements.txt`. The ablation scripts generate local evaluation outputs, which can be compared with the manuscript and Supporting Information. The released data and scripts do not imply independent re-execution of every published experiment. The final candidates are computational hypotheses and have not been experimentally validated.
+
+This archive is a repository-upload package, **not evidence that the GitHub URL above is currently public or up to date**. The corresponding author should verify the public URL and make sure this complete version is accessible to reviewers before submission.
+
 ## Supplementary Data S1 — figure source data
 
-`data/Data_S1.xlsx` contains 14 worksheets of numerical data underlying Figures 2–8 and Figures S1–S7. Figure 1 is a schematic and Figure S8 is a screenshot; neither has a corresponding numerical worksheet. The journal's Supplementary Data S1 archive contains this workbook. In this repository it is supplied directly as an XLSX file for convenient access.
+`data/Data_S1.xlsx` contains 16 worksheets of numerical data underlying Figures 2–9 and Figures S1–S7. Figure 1 is a schematic and Figure S8 is a screenshot; neither has a corresponding numerical worksheet. The journal's Supplementary Data S1 archive contains this workbook. In this repository it is supplied directly as an XLSX file for convenient access.
 
 ## Supplementary Data S2 — curated and modeling datasets
 
@@ -64,6 +80,7 @@ Note: The VC/HCHO R², RMSE and MAE are calculated on the transformed model-outp
 - Target-specific matrices: EC 185 × 39 inputs; SC 185 × 39; VC 176 × 39; HCHO 214 × 40, plus one target column in each file. These contain the complete eligible modeling records (both train and held-out test data), not training-only subsets.
 - `Final_C1_C8_Candidates.xlsx`: shortlisted process/formulation data, surrogate predictions, desirability and applicability-domain diagnostics.
 - `Data_Dictionary.xlsx`: dataset, feature and descriptor definitions.
+- `Equal_Weight_Pooling.xlsx` and `Process_Only.xlsx`: four target-specific input matrices and corresponding observed response columns in each workbook; no calculated metrics.
 - `DFT_Inputs/`: 34 Gaussian calculation pairs (68 `.gjf` input files). **Gaussian output logs and descriptor-extraction scripts are not included.** Multiple materials may share one ionic species calculation; see the mapping README.
 
 For viscosity and free formaldehyde, model-ready target columns are `ln(1+y)` transformed, while the curated table contains the responses in mPa·s and ppm respectively. To return to physical units, use `y = exp(z) - 1`.

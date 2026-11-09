@@ -1,14 +1,14 @@
 {
   "algorithm": "sha256",
-  "description": "SHA-256 hashes of all repository files except FILE_MANIFEST.json itself",
+  "description": "SHA-256 hashes of repository files except this manifest",
   "files": {
     ".gitignore": {
       "sha256": "5ba71459eac2a916567a83cc2b97b142ab041ad5a0e60e66e1cc53a2ec678265",
       "bytes": 207
     },
     "README.md": {
-      "sha256": "7ce34b15cdaae65132e5d11605317383341a99840c0f65a9600081cbebca4521",
-      "bytes": 10683
+      "sha256": "8fce76bf7bad03b7e80bcd74e1c2387838eac8f6fc94cdf85bd3a87925c2cd03",
+      "bytes": 12799
     },
     "app/README.md": {
       "sha256": "f4500aa884040f563b5e47fb4429045000be7841fd0789e7e76a08437ebe6f09",
@@ -79,8 +79,8 @@
       "bytes": 229499
     },
     "app/requirements.txt": {
-      "sha256": "4eb8e69b052d01a400418c8f5b29c2b2ace342e2af5070633832e7b349258fd7",
-      "bytes": 279
+      "sha256": "a333d58331fe4972d47761b92ba32d5c5d7abd644c0843140e39e1075ba72127",
+      "bytes": 276
     },
     "app/run.py": {
       "sha256": "9cb5e99ed874b6920d5365c16a03e7ad30bc3510a6acc18d1d1a6d5b2b43eacf",
@@ -95,8 +95,8 @@
       "bytes": 2462
     },
     "data/Data_S1.xlsx": {
-      "sha256": "add0b5b2e7fe49de553e9682aae3af5c3b83dec5e3b1ea8e6a96759e7c51d8ce",
-      "bytes": 1103180
+      "sha256": "cc4117b570a53a6114ea78d28016ee41be0d42f0d876325fbffe55be2b890739",
+      "bytes": 1081873
     },
     "data/Data_S2/Curated_VAE_Formulation_Dataset.xlsx": {
       "sha256": "83b49aab3d59e09298689fadd490f721b81c2bea7880ac7465ee2b1dedfce97e",
@@ -379,12 +379,16 @@
       "bytes": 1135
     },
     "data/Data_S2/Data_Dictionary.xlsx": {
-      "sha256": "3c9b9e782b9af2b8efc20d32930c8c7330ea9214fb11e0abe09ba84d3375a3b4",
-      "bytes": 10698
+      "sha256": "44378164e574a86e2d007d6be7c90b05687cbe7f57ca0310b2420f4ec7621354",
+      "bytes": 10700
     },
     "data/Data_S2/EC_Modeling_Data.xlsx": {
       "sha256": "0f934a6c0c1d2130fc469ec6c14f41d59ed65525a0f0b5c877336787296f824d",
       "bytes": 42331
+    },
+    "data/Data_S2/Equal_Weight_Pooling.xlsx": {
+      "sha256": "3647868ba20f6b83a8b6dec693ca590199d535e2428d5bcf1daa35a2dc54c01e",
+      "bytes": 146085
     },
     "data/Data_S2/Final_C1_C8_Candidates.xlsx": {
       "sha256": "76718ea2c549067bb4048e451a32614bda2abfceb8d9f18dca0b8087150243a6",
@@ -394,9 +398,13 @@
       "sha256": "e977020091331233966aa03bde169c3a4373e9ddadd16c918ed444ce1038adba",
       "bytes": 50157
     },
+    "data/Data_S2/Process_Only.xlsx": {
+      "sha256": "4c7ce10f9b2b96995f65298897c09050eaeb8a0339b5ed5e07d40d673669d0a5",
+      "bytes": 28072
+    },
     "data/Data_S2/README.md": {
-      "sha256": "ea86331cea0cd3768d60c90371cd17923a89748e67897f149201ff3fb0aced8e",
-      "bytes": 6280
+      "sha256": "9fc8a5e5de3a21c5986682791940d574eef7eb6f373750496c8be0ce5a708f3a",
+      "bytes": 7513
     },
     "data/Data_S2/Raw_Material_Descriptors.xlsx": {
       "sha256": "d753d12ab73667ed6d44673e3e40aa97bf207d4cafcbf447bb8d766e092cfa51",
@@ -427,8 +435,8 @@
       "bytes": 229499
     },
     "requirements.txt": {
-      "sha256": "69053725614dce254d608902c3f6774d60f643ba695f003d1fd71e6c380be73e",
-      "bytes": 216
+      "sha256": "1ca8bb590803341c3cc878c83a86d11373056c0e9f5faadfe06f608728db85a1",
+      "bytes": 213
     },
     "src/__init__.py": {
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -454,9 +462,49 @@
       "sha256": "7c964c297496b4fb2703dbe65591f86c71bac0b063dc44ec69d52ea5b4f50f57",
       "bytes": 79533
     },
+    "src/training/EC_equal_pooling_originalCV.py": {
+      "sha256": "8e46d058bcdfb6d76e89b275333acb1ef42dfe4a7f08ef744c6707c1efad1994",
+      "bytes": 196
+    },
+    "src/training/EC_process_only_originalCV.py": {
+      "sha256": "5aef5bc28d6732445c8b19cf3717f52285a6b6e6cacaa7971b14fe60d9c4b2b2",
+      "bytes": 194
+    },
+    "src/training/HCHO_equal_pooling_originalCV.py": {
+      "sha256": "3c1a35d7d2caa772bbae26f8c1f716fa1541b67137a140d8675e8c6f81488206",
+      "bytes": 200
+    },
+    "src/training/HCHO_process_only_originalCV.py": {
+      "sha256": "c2378d4a0fe65832c1af807f95388288a6256e2866ada6adf81934bcaeee9405",
+      "bytes": 198
+    },
+    "src/training/README_ABLATION_JCIM.md": {
+      "sha256": "6a1940ac52fb69eb3de4e6c8aa6d8dd261715755ed69f0a34a91c5775fe06426",
+      "bytes": 1844
+    },
+    "src/training/SC_equal_pooling_originalCV.py": {
+      "sha256": "ddbd1ff92dd298a15389f3b3900e119fa890a102ce804cc89dafe9dc48ccb8c4",
+      "bytes": 196
+    },
+    "src/training/SC_process_only_originalCV.py": {
+      "sha256": "55fed8bb3ffb1d1b819c1d9f494da1b141ddd98aeb65563ae43d420c1b7a51f2",
+      "bytes": 194
+    },
+    "src/training/VC_equal_pooling_originalCV.py": {
+      "sha256": "467f88d9495aef86c930c1b8022706768083b2b330e59e439e88259b156f6695",
+      "bytes": 196
+    },
+    "src/training/VC_process_only_originalCV.py": {
+      "sha256": "35ecace339177cee65788cf6a6bb784ceb1800a9d22c3aa24e1b8f89d6b80e6a",
+      "bytes": 194
+    },
     "src/training/__init__.py": {
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "bytes": 0
+    },
+    "src/training/run_ablation_core.py": {
+      "sha256": "28f1a3310c1db2d118b8e2ed8c8676d361a96ccc0f88c7aa2e586605858588d0",
+      "bytes": 11619
     },
     "src/training/train_EC_CatBoost.py": {
       "sha256": "1ae03aba269cbe5a65923dba10cc3f9fdb7fadd8b221379fe08a2278f6819e93",
